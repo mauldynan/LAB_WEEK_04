@@ -1,22 +1,21 @@
 package com.example.lab_week_04
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 
-private const val ARG_POSITION = "position"
+private const val TAB_CONTENT = "TAB_CONTENT"
 
 class CafeDetailFragment : Fragment() {
-
-    private var position: Int = 0
+    private var content: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            position = it.getInt(ARG_POSITION, 0)
+            content = it.getString(TAB_CONTENT)
         }
     }
 
@@ -24,22 +23,19 @@ class CafeDetailFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_cafe_detail, container, false)
+        return inflater.inflate(R.layout.fragment_cafe_detail, container, false)
+    }
 
-        val textView = view.findViewById<TextView>(R.id.detail_text)
-
-        // ambil string sesuai tab yg dipilih
-        textView.text = getString(TABS_FIXED[position])
-
-        return view
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        view.findViewById<TextView>(R.id.content_description)?.text = content
     }
 
     companion object {
-        @JvmStatic
-        fun newInstance(position: Int) =
+        fun newInstance(content: String) =
             CafeDetailFragment().apply {
                 arguments = Bundle().apply {
-                    putInt(ARG_POSITION, position)
+                    putString(TAB_CONTENT, content)
                 }
             }
     }
